@@ -1,7 +1,7 @@
 /*
-*	AUTHORS:  Jon Rohan, Derek Wisong, Daniel Wetteroth
+*	AUTHORS:  Jon Rohan
 *	DATE:	  4/19/05     
-*	PURPOSE:  To implement a clock module on the linux 2.4 kernel.
+*	PURPOSE:  To implement a clock module on the linux 2.6 kernel.
 */
 
 

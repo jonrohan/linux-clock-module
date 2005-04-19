@@ -1,0 +1,47 @@
+Script started on Wed Apr 20 18:52:28 2005
+[1;36mroot@0[clock26]#[0;39m ls
+[0m[0mMakefile[0m  [0mclock.c[0m  [0mclock26.out[0m  [0mtest.c[0m
+[m[1;36mroot@0[clock26]#[0;39m make -C /home/knoppix/linux-`uname -r` SUBDIRS=$PWD modules
+make: Entering directory `/ramdisk/home/knoppix/linux-2.6.9'
+  CC [M]  /ramdisk/home/knoppix/clock26/clock.o
+/ramdisk/home/knoppix/clock26/clock.c: In function `proc_read':
+/ramdisk/home/knoppix/clock26/clock.c:53: warning: int format, time_t arg (arg 4)
+/ramdisk/home/knoppix/clock26/clock.c:53: warning: int format, long int arg (arg 5)
+/ramdisk/home/knoppix/clock26/clock.c:39: warning: statement with no effect
+/ramdisk/home/knoppix/clock26/clock.c:56: warning: statement with no effect
+  Building modules, stage 2.
+  MODPOST
+  CC      /ramdisk/home/knoppix/clock26/clock.mod.o
+  LD [M]  /ramdisk/home/knoppix/clock26/clock.ko
+make: Leaving directory `/ramdisk/home/knoppix/linux-2.6.9'
+[1;36mroot@0[clock26]#[0;39m [Kls
+[0m[0mMakefile[0m  [0mclock.ko[0m     [0mclock.mod.o[0m  [0mclock26.out[0m
+[0mclock.c[0m   [0mclock.mod.c[0m  [0mclock.o[0m      [0mtest.c[0m
+[m[1;36mroot@0[clock26]#[0;39m insmod clock.ko
+[1;36mroot@0[clock26]#[0;39m [Kcart  t /proc/clock
+Call 1: 1114037615 319392720
+[1;36mroot@0[clock26]#[0;39m [Kgcc test.c -o test.o
+[1;36mroot@0[clock26]#[0;39m [K./test.o
+203709579 270824587 Call 2: 1114037641 581400288
+
+203709579 270824587 Call 3: 1114037641 581400288
+
+203709579 270824587 Call 4: 1114037641 581400288
+
+203709579 270824587 Call 5: 1114037641 582400136
+
+203709579 270824587 Call 6: 1114037641 582400136
+
+203709579 270824587 Call 7: 1114037641 582400136
+
+203709579 270824587 Call 8: 1114037641 582400136
+
+203709579 270824587 Call 9: 1114037641 582400136
+
+203709579 270824587 Call 10: 1114037641 582400136
+
+203709579 270824587 Call 11: 1114037641 582400136
+
+[1;36mroot@0[clock26]#[0;39m exit
+
+Script done on Wed Apr 20 18:54:21 2005

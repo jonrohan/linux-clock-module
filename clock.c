@@ -1,7 +1,7 @@
 /* 
- * AUTHOR: Jon Rohan, Derek Wisong, Daniel Wetteroth
+ * AUTHOR: Jon Rohan
  * DATE:   4.19.2005
- * PURPOSE: Create a Linux 2.4 kernel module named clock into the /proc/ 
+ * PURPOSE: Create a Linux 2.6 kernel module named clock into the /proc/ 
  *          directory
  */
 
@@ -26,44 +26,40 @@ static const char filename[] = "clock";
 /* proc info. */
 static struct proc_dir_entry *infop;
 
-/* 
- *	Save the contents of the file into	a buffer, which	will 
- *	be used	for	the	result of a	read system	call on	the	file.
- */
-static int proc_read(char *	sys_buffer,	char **	my_buffer, off_t file_pos, int count, int *	eof, void *	data)
-{
-	/* initialize the int we will return */
-	int	len;
 
-	/* counter used	to display the number of calls to the program */
+static int proc_read(char * sys_buffer, char ** my_buffer, off_t file_pos, int count, int * eof, void * data)
+{
+	int len;
+
+	/* counter used to display the number of calls to the program */
 	static int counter = 1;
 
 	/*
-	 * Increment the use count so that the module can't
-	 * be removed while	we are in the middle of	this call.
+	 * This is one of the changes between the 2.4 kernel and the 2.6 kernel
+	 * It works the same as the MOD_INC_USE_COUNT
 	 */
-	MOD_INC_USE_COUNT;
+	try_module_get;
 	
 	/*
-	 * If the file_pos is equal	to 0 then it is	the	first time the file	is read
-	 * so we increment the counter by 1. If	the	file_pos is	greater	than 0
-	 * then	we are not doen	reading	the	file so	we return 0
+	 * If the file_pos is equal to 0 then it is the first time the file is read
+	 * so we increment the counter by 1. If the file_pos is greater than 0
+	 * then we are not doen reading the file so we return 0
 	 */
-	if(file_pos	> 0)
+	if(file_pos > 0)
 		return 0;
 	
-		
+        
 	/*
-	 * Get the current time	and	format it.
-	 * we directly put the xtime values in the buffer
+	 * Get the current time and format it.
+	 * the 2.6 kernel uses xtime.tv_nsec for the nanoseconds
+	 * instead of xtime.tv_usec
 	 */
-	len	= sprintf(sys_buffer,"Call %d: %d %d\n",counter,xtime.tv_sec,xtime.tv_usec);
-
-	/* increment the counter */
+	len = sprintf(sys_buffer,"Call %d: %d %d\n",counter,xtime.tv_sec,xtime.tv_nsec);
 	counter++;
-	/* Decrement the use count to notify that the module is done */
-	MOD_DEC_USE_COUNT;
 	
+	/* This is the same as MOD_DEC_USE_COUNT */
+	module_put;
+
 	return len;
 }
 
